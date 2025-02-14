@@ -1,6 +1,5 @@
-//Vorlage für die Kuchenrezepte
+<!--Vorlage für die Kuchenrezepte-->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="de">
@@ -16,7 +15,6 @@
             color: ${rezept.farbe1};
             text-align: center;
             padding: 20px;
-            background-image: url('https://example.com/cute-background.png');
             background-size: cover;
         }
         .container {
@@ -69,7 +67,7 @@
 <body>
 <div class="container">
     <h1>${rezept.emoji} ${rezept.titel} 🍰</h1>
-    <img src="images/${rezept.bild}" alt="${rezept.titel}">
+    <img src="${rezept.bild}" alt="${rezept.titel}">
     <h2>Zutaten:</h2>
     <ul>
         <c:forEach var="zutaten" items="${rezept.zutaten}">
@@ -80,6 +78,6 @@
     <p>${rezept.zubereitung}</p>
     <a href="index.jsp" class="button">${rezept.emoji} Weitere Rezepte 🎀</a>
 </div>
+<a href="rezensionen.jsp?rezeptId=${rezept.rezeptId}" class="button">📝 Rezensionen</a>
 </body>
 </html>
-
