@@ -70,7 +70,6 @@ public class RezeptDAO {
                         resultSet.getString("zubereitung")
                 ));
             }
-            System.out.println("Rezepte aus DB geladen: " + rezepte.size());
         }
         return rezepte;
     }

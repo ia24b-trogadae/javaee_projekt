@@ -28,14 +28,21 @@ public class IndexServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<Rezept> rezepteListe = rezeptDAO.getAllRezepte();
-            // Debugging: Prüfen, ob die Liste gefüllt wird
-            System.out.println("Rezepte gefunden: " + rezepteListe.size());
+
+            if (rezepteListe == null) {
+                System.out.println("Fehler: Die Rezeptliste ist NULL!");
+            }
+
             request.setAttribute("rezepteListe", rezepteListe);
             request.getRequestDispatcher("index.jsp").forward(request, response);
+
         } catch (SQLException e) {
+            System.out.println("SQL-Fehler beim Abrufen der Rezepte: " + e.getMessage());
+            e.printStackTrace();
             response.sendRedirect("index.jsp?error=DatenbankFehler");
         }
     }
+
 
     @Override
     public void destroy() {

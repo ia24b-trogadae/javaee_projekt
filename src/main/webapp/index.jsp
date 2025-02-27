@@ -28,22 +28,31 @@
         .rezept {
             background: white;
             padding: 10px;
+            margin-bottom: 60px;
             border-radius: 15px;
             border: 3px solid #ff1493;
             text-align: center;
+            height: 200px;
         }
         .rezept img {
-            width: 100px;
-            height: 100px;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             border-radius: 10px;
             background: #d3d3d3;
             display: block;
-            margin: 10px auto;
         }
         .rezept h2 {
-            font-size: 1.2em;
+            font-size: 1.5em;
             color: #ff1493;
+            margin-top: 10px;
+        }
+        .rezept img:hover {
+            opacity: 0.5;
+            cursor: pointer;
+        }
+        a {
+            text-decoration: none;
         }
     </style>
 </head>
@@ -53,9 +62,10 @@
 <div class="container">
     <c:forEach var="rezept" items="${rezepteListe}" begin="0" end="7">
         <div class="rezept">
-            <h1>Hallo</h1>
-            <img src="${rezept.bild}" alt="${rezept.titel}">
-            <h2>${rezept.titel}</h2>
+            <a href="VorlageServlet?id=${rezept.rezeptId}">
+                <img src="${rezept.bild}" alt="${rezept.titel}">
+                <h2>${rezept.titel}</h2>
+            </a>
         </div>
     </c:forEach>
 </div>

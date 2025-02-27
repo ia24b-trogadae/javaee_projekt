@@ -25,25 +25,23 @@ public class VorlageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String rezeptIdParam = request.getParameter("rezeptId");
-        // Debugging: Prüfen, ob die Liste gefüllt wird
-        System.out.println("Test");
+        String rezeptIdParam = request.getParameter("id"); // Parameter "id" aus der URL lesen
         if (rezeptIdParam != null) {
             try {
-                int rezeptId = Integer.parseInt(rezeptIdParam);
-                Rezept rezept = rezeptDAO.getRezeptById(rezeptId);
+                int rezeptId = Integer.parseInt(rezeptIdParam); // Konvertiere den Parameter in einen Integer
+                Rezept rezept = rezeptDAO.getRezeptById(rezeptId); // Rezept aus der Datenbank abrufen
 
                 if (rezept != null) {
-                    request.setAttribute("rezept", rezept);
+                    request.setAttribute("rezept", rezept); // Rezept an die JSP-Seite weitergeben
                     request.getRequestDispatcher("vorlageWebseite.jsp").forward(request, response);
                 } else {
-                    response.sendRedirect("index.jsp?error=RezeptNichtGefunden");
+                    response.sendRedirect("index.jsp?error=RezeptNichtGefunden"); // Fehler: Rezept nicht gefunden
                 }
             } catch (NumberFormatException | SQLException e) {
-                response.sendRedirect("index.jsp?error=UngültigeRezeptId");
+                response.sendRedirect("index.jsp?error=UngültigeRezeptId"); // Fehler: Ungültige rezept_id
             }
         } else {
-            response.sendRedirect("index.jsp?error=KeineRezeptId");
+            response.sendRedirect("index.jsp?error=KeineRezeptId"); // Fehler: Keine rezept_id angegeben
         }
     }
 

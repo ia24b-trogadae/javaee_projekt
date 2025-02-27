@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
             if (isValidUser(username, passwort)) {
                 HttpSession session = request.getSession();
                 session.setAttribute("username", username);
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("IndexServlet");
             } else {
                 response.sendRedirect("login.jsp?error=Falscher Benutzername oder Passwort!");
             }

@@ -1,4 +1,3 @@
-<!--Vorlage für die Kuchenrezepte-->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
@@ -76,7 +75,7 @@
     </ul>
     <h2>Zubereitung:</h2>
     <p>${rezept.zubereitung}</p>
-    <a href="index.jsp" class="button">${rezept.emoji} Weitere Rezepte 🎀</a>
+    <a href="IndexServlet" class="button">${rezept.emoji} Weitere Rezepte 🎀</a>
 </div>
 <a href="rezensionen.jsp?rezeptId=${rezept.rezeptId}" class="button">📝 Rezensionen</a>
 </body>
