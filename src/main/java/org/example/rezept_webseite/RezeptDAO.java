@@ -1,23 +1,19 @@
 package org.example.rezept_webseite;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RezeptDAO {
     private Connection connection;
 
-    public RezeptDAO() {
-        DBConnection dbConnection = new DBConnection();
-        this.connection = dbConnection.getConnection();
+    public RezeptDAO(Connection connection) {
+        this.connection = connection;
     }
 
-    public boolean createRezept(Rezept rezept) throws SQLException {
-        String query = "INSERT INTO Rezept (titel, bild, farbe1, farbe2, farbe3, farbe4, emoji, zutaten, zubereitung, benutzer_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+    public void addRezept(Rezept rezept) throws SQLException {
+        String sql = "INSERT INTO Rezept (titel, bild, farbe1, farbe2, farbe3, farbe4, emoji, zutaten, zubereitung) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, rezept.getTitel());
             statement.setString(2, rezept.getBild());
             statement.setString(3, rezept.getFarbe1());
@@ -27,15 +23,14 @@ public class RezeptDAO {
             statement.setString(7, rezept.getEmoji());
             statement.setString(8, rezept.getZutaten());
             statement.setString(9, rezept.getZubereitung());
-            statement.setInt(10, rezept.getBenutzerId());
-            return statement.executeUpdate() > 0;
+            statement.executeUpdate();
         }
     }
 
-    public Rezept getRezeptById(int rezept_id) throws SQLException {
-        String query = "SELECT * FROM Rezept WHERE rezept_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, rezept_id);
+    public Rezept getRezeptById(int rezeptId) throws SQLException {
+        String sql = "SELECT * FROM Rezept WHERE rezept_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, rezeptId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return new Rezept(
@@ -48,21 +43,21 @@ public class RezeptDAO {
                         resultSet.getString("farbe4"),
                         resultSet.getString("emoji"),
                         resultSet.getString("zutaten"),
-                        resultSet.getString("zubereitung"),
-                        resultSet.getInt("benutzer_id")
+                        resultSet.getString("zubereitung")
                 );
             }
         }
         return null;
     }
 
+
     public List<Rezept> getAllRezepte() throws SQLException {
-        List<Rezept> rezepteList = new ArrayList<>();
-        String query = "SELECT * FROM Rezept";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            ResultSet resultSet = statement.executeQuery();
+        List<Rezept> rezepte = new ArrayList<>();
+        String sql = "SELECT * FROM Rezept";
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
-                rezepteList.add(new Rezept(
+                rezepte.add(new Rezept(
                         resultSet.getInt("rezept_id"),
                         resultSet.getString("titel"),
                         resultSet.getString("bild"),
@@ -72,17 +67,17 @@ public class RezeptDAO {
                         resultSet.getString("farbe4"),
                         resultSet.getString("emoji"),
                         resultSet.getString("zutaten"),
-                        resultSet.getString("zubereitung"),
-                        resultSet.getInt("benutzer_id")
+                        resultSet.getString("zubereitung")
                 ));
             }
+            System.out.println("Rezepte aus DB geladen: " + rezepte.size());
         }
-        return rezepteList;
+        return rezepte;
     }
 
-    public boolean updateRezept(Rezept rezept) throws SQLException {
-        String query = "UPDATE Rezept SET titel = ?, bild = ?, farbe1 = ?, farbe2 = ?, farbe3 = ?, farbe4 = ?, emoji = ?, zutaten = ?, zubereitung = ?, benutzer_id = ? WHERE rezept_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+    public void updateRezept(Rezept rezept) throws SQLException {
+        String sql = "UPDATE Rezept SET titel = ?, bild = ?, farbe1 = ?, farbe2 = ?, farbe3 = ?, farbe4 = ?, emoji = ?, zutaten = ?, zubereitung = ? WHERE rezept_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, rezept.getTitel());
             statement.setString(2, rezept.getBild());
             statement.setString(3, rezept.getFarbe1());
@@ -92,17 +87,16 @@ public class RezeptDAO {
             statement.setString(7, rezept.getEmoji());
             statement.setString(8, rezept.getZutaten());
             statement.setString(9, rezept.getZubereitung());
-            statement.setInt(10, rezept.getBenutzerId());
-            statement.setInt(11, rezept.getRezeptId());
-            return statement.executeUpdate() > 0;
+            statement.setInt(10, rezept.getRezeptId());
+            statement.executeUpdate();
         }
     }
 
-    public boolean deleteRezept(int rezept_id) throws SQLException {
-        String query = "DELETE FROM Rezept WHERE rezept_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, rezept_id);
-            return statement.executeUpdate() > 0;
+    public void deleteRezept(int rezeptId) throws SQLException {
+        String sql = "DELETE FROM Rezept WHERE rezept_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, rezeptId);
+            statement.executeUpdate();
         }
     }
 }

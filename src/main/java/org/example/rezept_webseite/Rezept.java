@@ -11,9 +11,8 @@ public class Rezept {
     private String emoji;
     private String zutaten;
     private String zubereitung;
-    private int benutzerId;
 
-    public Rezept(int rezeptId, String titel, String bild, String farbe1, String farbe2, String farbe3, String farbe4, String emoji, String zutaten, String zubereitung, int benutzerId) {
+    public Rezept(int rezeptId, String titel, String bild, String farbe1, String farbe2, String farbe3, String farbe4, String emoji, String zutaten, String zubereitung) {
         this.rezeptId = rezeptId;
         this.titel = titel;
         this.bild = bild;
@@ -24,7 +23,6 @@ public class Rezept {
         this.emoji = emoji;
         this.zutaten = zutaten;
         this.zubereitung = zubereitung;
-        this.benutzerId = benutzerId;
     }
 
     public int getRezeptId() {
@@ -107,11 +105,4 @@ public class Rezept {
         this.zubereitung = zubereitung;
     }
 
-    public int getBenutzerId() {
-        return benutzerId;
-    }
-
-    public void setBenutzerId(int benutzerId) {
-        this.benutzerId = benutzerId;
-    }
 }
