@@ -5,8 +5,8 @@ import java.sql.*;
 public class DBConnector {
 
     private static final String URL = "jdbc:mysql://localhost:3306/RezeptWebseite";
-    private static final String USER = "elena";
-    private static final String PASSWORD = "2478";
+    private static final String USER = "root";
+    private static final String PASSWORD = "";
 
     static {
         try {
